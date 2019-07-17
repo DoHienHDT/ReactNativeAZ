@@ -11,7 +11,7 @@ import {
     Text,
     TextInput,
     View,
-    StatusBar
+    StatusBar,Button
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 
@@ -21,6 +21,13 @@ export default class CustomerHomeController extends Component {
     headerStyle: {
       backgroundColor: 'red',
     },
+    headerLeft: (
+      <Button
+        onPress={() => alert('This is a button!')}
+        title="Info"
+        color="#fff"
+      />
+    ),
   };
     render() {
          return(
@@ -65,6 +72,7 @@ export default class CustomerHomeController extends Component {
                   cellStyle="Basic"
                   title="Báo giá"
                   accessory="DisclosureIndicator"
+                  onPress={() => alert('Chức năng đang nâng cấp')}
                   image={
                     <Image
                       style={{ borderRadius: 5 }}
@@ -76,6 +84,7 @@ export default class CustomerHomeController extends Component {
                   cellStyle="Basic"
                   title="Hợp đồng"
                   accessory="DisclosureIndicator"
+                  onPress={() => alert('Chức năng đang nâng cấp')}
                   image={
                     <Image
                       style={{ borderRadius: 5 }}

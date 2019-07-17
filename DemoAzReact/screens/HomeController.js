@@ -18,9 +18,11 @@ import {Cell, Section, TableView} from 'react-native-tableview-simple';
 export default class HomeController extends Component { 
   static navigationOptions = {
     headerLeft: null,
+
     headerStyle: {
       backgroundColor: 'red',
-    },
+    }
+  
   };
     render() {
          return(
