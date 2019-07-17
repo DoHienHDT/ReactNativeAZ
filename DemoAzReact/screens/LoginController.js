@@ -3,11 +3,18 @@ import { Image, StyleSheet, View, Switch, TextInput, Dimensions, ImageBackground
 import {Component} from 'react'
 import colors from "../config/colors";
 import Icon from 'react-native-vector-icons/Ionicons';
+import {HomeController} from '../screenName'
 
 const {width: WIDTH} = Dimensions.get('window')
 
 export default class LoginController extends Component { 
+    static navigationOptions = {
+        header: null
+      };
+      
     render() {
+        const {navigation} = this.props;
+
         return (
             <ImageBackground  source={require('../Images/unnamed.jpg')} style ={styles.backgroundContainer}>
                                     <View style={styles.logoContainer}>
@@ -38,7 +45,11 @@ export default class LoginController extends Component {
                                         />
                                     </View>
                                   
-                                        <TouchableOpacity style={styles.btnLogin}>
+                                        <TouchableOpacity style={styles.btnLogin}
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate("Home");
+                                                            // navigation.navigate(HomeController);
+                                                        }}>
                                             <Text style={styles.text}>Đăng nhập</Text>
                                         </TouchableOpacity>
 
