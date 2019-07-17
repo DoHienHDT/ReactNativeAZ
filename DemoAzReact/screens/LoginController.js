@@ -11,7 +11,7 @@ export default class LoginController extends Component {
     static navigationOptions = {
         header: null
       };
-      
+
     render() {
         const {navigation} = this.props;
 

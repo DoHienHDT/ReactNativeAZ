@@ -15,9 +15,9 @@ import {
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 
-export default class HomeController extends Component { 
+export default class CustomerHomeController extends Component { 
   static navigationOptions = {
-    headerLeft: null,
+    headerLeft : null,
     headerStyle: {
       backgroundColor: 'red',
     },
@@ -30,10 +30,6 @@ export default class HomeController extends Component {
              <TableView >
                       <Section>
                 <Cell
-                 onPress={() => {
-                  this.props.navigation.navigate("CustomerHome");
-               
-                  }}  
                   cellStyle="Basic"
                   title="Khách hàng"
                   accessory="DisclosureIndicator"
@@ -46,7 +42,7 @@ export default class HomeController extends Component {
                 />
                 <Cell
                   accessory="DisclosureIndicator"
-                  title="Bán hàng"
+                  title="Liên hệ"
                   image={
                     <Image
                       style={{ borderRadius: 5 }}
@@ -55,7 +51,7 @@ export default class HomeController extends Component {
                   }
                 />
                 <Cell
-                  title="Công việc"
+                  title="Cơ hội"
                   accessory="DisclosureIndicator"
                   image={
                     <Image
@@ -64,6 +60,28 @@ export default class HomeController extends Component {
                     />
                   }
                   onPress={() => console.log('Hien dep trai!')}
+                />
+                 <Cell
+                  cellStyle="Basic"
+                  title="Báo giá"
+                  accessory="DisclosureIndicator"
+                  image={
+                    <Image
+                      style={{ borderRadius: 5 }}
+                      source={require('../Images/bao_gia.png')}
+                    />
+                  }
+                />
+                 <Cell
+                  cellStyle="Basic"
+                  title="Hợp đồng"
+                  accessory="DisclosureIndicator"
+                  image={
+                    <Image
+                      style={{ borderRadius: 5 }}
+                      source={require('../Images/hop_dong.png')}
+                    />
+                  }
                 />
               </Section>
                       </TableView>
