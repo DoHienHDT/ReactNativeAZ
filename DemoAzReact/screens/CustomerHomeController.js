@@ -11,24 +11,23 @@ import {
     Text,
     TextInput,
     View,
-    StatusBar,Button
+    StatusBar,Button,
+    TouchableHighlight
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 
+
 export default class CustomerHomeController extends Component { 
-  static navigationOptions = {
-    headerLeft : null,
+  
+  static navigationOptions= ({ navigation, screenProps }) => ({
+
     headerStyle: {
       backgroundColor: 'red',
-    },
-    headerLeft: (
-      <Button
-        onPress={() => alert('This is a button!')}
-        title="Info"
-        color="#fff"
-      />
-    ),
-  };
+    }
+
+  });
+
+
     render() {
          return(
            <SafeAreaView>
@@ -113,3 +112,4 @@ const styles = StyleSheet.create({
       flex:1
     }
   });
+

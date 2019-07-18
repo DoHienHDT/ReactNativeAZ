@@ -1,55 +1,129 @@
 import React from "react";
-import { Image, StyleSheet, View, Switch, TextInput, Dimensions, ImageBackground, TouchableOpacity, Text} from "react-native";
-import {Component} from 'react'
+import { Image, StyleSheet, View, Alert,ActivityIndicator, TextInput, Dimensions, ImageBackground, TouchableOpacity, Text, AsyncStorage} from "react-native";
+import {Component} from 'react';
 import colors from "../config/colors";
 import Icon from 'react-native-vector-icons/Ionicons';
-import {HomeController} from '../screenName'
+import {HomeController} from '../screenName';
+import Loader from '../pages/Loader';
 
 const {width: WIDTH} = Dimensions.get('window')
 
+var url = 'http://appdemo.azmax.vn/services/mobileapi.ashx';
+var data = {  "method":"login",
+"tendangnhap": "admin",
+"matkhau":"admin",
+"seckey":"azmax"};
+
 export default class LoginController extends Component { 
+
     static navigationOptions = {
         header: null
       };
 
+      handlePress = async () => {
+        fetch('http://appdemo.azmax.vn/services/mobileapi.ashx', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "method":"login",
+                "tendangnhap": this.state.taikhoan,
+                "matkhau":this.state.matkhau,
+                "seckey":"azmax"
+            })
+      })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            this.setState({
+                loading: true,
+                dataSource: responseJson["msg"],
+                manv: responseJson["manv"]
+              }, function(){
+      
+              }); 
+
+              setTimeout(() => {
+                this.setState({
+                  loading: false,
+                });
+
+                if (this.state.dataSource === "ok" ) {
+                    this.props.navigation.navigate("Home")
+                } else {
+                    Alert.alert("Đăng nhập thất bại");
+                }
+              }, 2500);
+
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        }
+    
+      constructor(props) {
+          super(props);
+          this.state = {
+              taikhoan: '',
+              matkhau: '',
+              loading: false,
+          }
+      }
+
     render() {
         const {navigation} = this.props;
-
+        
         return (
             <ImageBackground  source={require('../Images/unnamed.jpg')} style ={styles.backgroundContainer}>
                                     <View style={styles.logoContainer}>
+                                    <Loader loading={this.state.loading} />
                                     <Image source={require('../Images/app_mobile_02.png')} style={styles.logo} />
                                     </View>
                                     
                                     <View style = {styles.inputContainer}>
-                                        {/* <Icon name={'person'} size= {28} color={'rgba(255,255,255,0.7)'}
-                                            style={styles.inputIcon}
-                                        /> */}
                                         <TextInput 
                                             style={styles.input}
                                             placeholder={'Tài khoản'}
                                             placeholderTextColor = {'rgba(255,255,255,0.7)'}
                                             underlineColorAndroid = 'transparent'
+                                            onChangeText = {
+                                                (text) => {
+                                                    this.setState(
+                                                        (previousState) => {
+                                                            return {
+                                                                taikhoan: text
+                                                            };
+                                                        }
+                                                    );
+                                                }
+                                            }
                                         />
                                     </View>
                                     <View style = {styles.inputContainer}>
-                                        {/* <Icon name={'person'} size= {28} color={'rgba(255,255,255,0.7)'}
-                                            style={styles.inputIcon}
-                                        /> */}
                                         <TextInput 
                                             style={styles.input}
                                             placeholder={'Mật khẩu'}
                                             placeholderTextColor = {'rgba(255,255,255,0.7)'}
                                             underlineColorAndroid = 'transparent'
                                             secureTextEntry = {true}
+                                            onChangeText = {
+                                                (text) => {
+                                                    this.setState(
+                                                        (previousState) => {
+                                                            return {
+                                                                matkhau: text
+                                                            };
+                                                        }
+                                                    );
+                                                }
+                                            }
                                         />
                                     </View>
                                   
                                         <TouchableOpacity style={styles.btnLogin}
-                                                        onPress={() => {
-                                                            this.props.navigation.navigate("Home");
-                                                            // navigation.navigate(HomeController);
-                                                        }}>
+                                                        onPress={this.handlePress.bind(this)}
+                                                        >
+                                                        
                                             <Text style={styles.text}>Đăng nhập</Text>
                                         </TouchableOpacity>
 
@@ -60,7 +134,10 @@ export default class LoginController extends Component {
         
         );
     }
+    
+  
 }
+
 
 const styles = StyleSheet.create({
     backgroundContainer: {
@@ -86,15 +163,6 @@ const styles = StyleSheet.create({
       width: 200,
       height: 200
     },
-    form: {
-      flex: 1,
-      justifyContent: "center",
-      width: "80%"
-    },
-    switch: {
-      left: 250,
-      bottom: 50
-    },
     input: {
         width: WIDTH - 55,
         height: 50,
@@ -105,11 +173,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.35)',
         color: 'rgba(255,255,255,0.7)',
         marginHorizontal: 25
-    },
-    inputIcon: {
-        position: 'absolute',
-        top:10,
-        left: 37
     },
     btnLogin: {
         width: WIDTH - 55,
