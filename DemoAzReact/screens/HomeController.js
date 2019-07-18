@@ -12,7 +12,11 @@ import {
     TextInput,
     View,
     StatusBar,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert,
+    AsyncStorage,
+    BackAndroid
+
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 const {width: WIDTH} = Dimensions.get('window')
@@ -25,6 +29,26 @@ export default class HomeController extends Component {
     }
   
   };
+
+  handlePress = async () => { 
+    Alert.alert(
+      'Thông báo',
+      'Bạn có chắc chắn muốn thoát khỏi phiên đăng nhập này không?',
+      [
+             {text: 'Đồng ý', onPress: () => console.log('OK Pressed') },
+             {text: 'Không', onPress: () => console.log('OK Pressed')}
+      ]
+  );
+  }
+
+  // async getKey() {
+  //   try {
+  //     const value = await AsyncStorage.getItem('manv');
+  //     this.setState({myKey: value});
+  //   } catch (error) {
+  //     console.log("Error retrieving data" + error);
+  //   }
+  // }
     render() {
          return(
            <SafeAreaView>
@@ -107,16 +131,28 @@ export default class HomeController extends Component {
              </ScrollView>
              <View style={styles.headerView}>
              <TouchableOpacity style={styles.btnLogOut}
+              onPress={this.handlePress.bind(this)}
             >
-
             <Text style={styles.text}>Đăng Xuất</Text>
             </TouchableOpacity>
              </View >
-           
+
 
            </SafeAreaView>  
     );
     }
+}
+
+ getUserId = async () => {
+  let userId = '';
+  try {
+    userId = await AsyncStorage.getItem('manv') || 'none';
+    alert(userId)
+  } catch (error) {
+    // Error retrieving data
+    console.log(error.message);
+  }
+  return userId;
 }
 
 const styles = StyleSheet.create({
@@ -133,12 +169,12 @@ const styles = StyleSheet.create({
       width: WIDTH - 55,
       height: 50,
       borderRadius: 25,
-      backgroundColor: '#432577',
+      backgroundColor: 'red',
       justifyContent: 'center',
       marginTop: 650
     },
     text: {
-    color: 'rgba(255,255,255,0.7)',
+    color: 'white',
     fontSize: 16,
     textAlign: 'center'
       }

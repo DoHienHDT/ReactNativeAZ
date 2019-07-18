@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, View, Alert,ActivityIndicator, TextInput, Dimensions, ImageBackground, TouchableOpacity, Text, AsyncStorage} from "react-native";
+import { Image, StyleSheet, View, Alert,ActivityIndicator, TextInput, Dimensions, ImageBackground, TouchableOpacity, Text, AsyncStorage, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard} from "react-native";
 import {Component} from 'react';
 import colors from "../config/colors";
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -7,12 +7,6 @@ import {HomeController} from '../screenName';
 import Loader from '../pages/Loader';
 
 const {width: WIDTH} = Dimensions.get('window')
-
-var url = 'http://appdemo.azmax.vn/services/mobileapi.ashx';
-var data = {  "method":"login",
-"tendangnhap": "admin",
-"matkhau":"admin",
-"seckey":"azmax"};
 
 export default class LoginController extends Component { 
 
@@ -38,7 +32,7 @@ export default class LoginController extends Component {
             this.setState({
                 loading: true,
                 dataSource: responseJson["msg"],
-                manv: responseJson["manv"]
+                 manv: responseJson["manv"]
               }, function(){
       
               }); 
@@ -49,7 +43,9 @@ export default class LoginController extends Component {
                 });
 
                 if (this.state.dataSource === "ok" ) {
-                    this.props.navigation.navigate("Home")
+                    // this.props.navigation.navigate("Home")
+                    // this.saveKey(this.state.manv)
+                    // alert(this.state.manv);
                 } else {
                     Alert.alert("Đăng nhập thất bại");
                 }
@@ -70,68 +66,88 @@ export default class LoginController extends Component {
           }
       }
 
+
+//   async saveKey(value) {
+//     try {
+//       await AsyncStorage.setItem('manv', value);
+//     } catch (error) {
+//       console.log("Error saving data" + error);
+//     }
+//   }
+
     render() {
         const {navigation} = this.props;
         
         return (
             <ImageBackground  source={require('../Images/unnamed.jpg')} style ={styles.backgroundContainer}>
-                                    <View style={styles.logoContainer}>
-                                    <Loader loading={this.state.loading} />
-                                    <Image source={require('../Images/app_mobile_02.png')} style={styles.logo} />
-                                    </View>
+                <KeyboardAvoidingView behavior='padding' style ={styles.backgroundContainer}>
+                    <TouchableWithoutFeedback style ={styles.backgroundContainer} 
+                    onPress ={Keyboard.dismiss}>
+                        <View style ={styles.backgroundContainer}>
+                                        <View style={styles.logoContainer}>
+                                            <Loader loading={this.state.loading} />
+                                            <Image source={require('../Images/app_mobile_02.png')} style={styles.logo} />
+                                        </View>
                                     
-                                    <View style = {styles.inputContainer}>
-                                        <TextInput 
-                                            style={styles.input}
-                                            placeholder={'Tài khoản'}
-                                            placeholderTextColor = {'rgba(255,255,255,0.7)'}
-                                            underlineColorAndroid = 'transparent'
-                                            onChangeText = {
-                                                (text) => {
-                                                    this.setState(
-                                                        (previousState) => {
-                                                            return {
-                                                                taikhoan: text
-                                                            };
+                                        <View style = {styles.inputContainer}>
+                                                <TextInput 
+                                                    style={styles.input}
+                                                    placeholder={'Tài khoản'}
+                                                    placeholderTextColor = {'rgba(255,255,255,0.7)'}
+                                                    underlineColorAndroid = 'transparent'
+                                                    returnKeyType='next'
+                                                    onSubmitEditing={()=> this.refs.txtPassword.focus()}
+                                                    onChangeText = {
+                                                        (text) => {
+                                                            this.setState(
+                                                                (previousState) => {
+                                                                    return {
+                                                                        taikhoan: text
+                                                                    };
+                                                                }
+                                                            );
                                                         }
-                                                    );
-                                                }
-                                            }
-                                        />
-                                    </View>
-                                    <View style = {styles.inputContainer}>
-                                        <TextInput 
-                                            style={styles.input}
-                                            placeholder={'Mật khẩu'}
-                                            placeholderTextColor = {'rgba(255,255,255,0.7)'}
-                                            underlineColorAndroid = 'transparent'
-                                            secureTextEntry = {true}
-                                            onChangeText = {
-                                                (text) => {
-                                                    this.setState(
-                                                        (previousState) => {
-                                                            return {
-                                                                matkhau: text
-                                                            };
-                                                        }
-                                                    );
-                                                }
-                                            }
-                                        />
-                                    </View>
-                                  
-                                        <TouchableOpacity style={styles.btnLogin}
-                                                        onPress={this.handlePress.bind(this)}
-                                                        >
-                                                        
-                                            <Text style={styles.text}>Đăng nhập</Text>
-                                        </TouchableOpacity>
+                                                    }
+                                                />
+                                        </View>
 
-                                        <Text style={styles.contact}>Bạn chưa có tài khoản đăng nhập?</Text>
-                                   
-                                    
+                                        <View style = {styles.inputContainer}>
+                                            <TextInput 
+                                                style={styles.input}
+                                                placeholder={'Mật khẩu'}
+                                                placeholderTextColor = {'rgba(255,255,255,0.7)'}
+                                                underlineColorAndroid = 'transparent'
+                                                secureTextEntry = {true}
+                                                ref={"txtPassword"}
+                                                onChangeText = {
+                                                    (text) => {
+                                                        this.setState(
+                                                            (previousState) => {
+                                                                return {
+                                                                    matkhau: text
+                                                                };
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            />
+                                        </View>
+                                  
+                                            <TouchableOpacity style={styles.btnLogin}
+                                                             onPress={() => {
+                                                                this.props.navigation.navigate("Home");
+                                                              }}  
+                                                            >
+                                                            {/* this.handlePress.bind(this) */}
+                                                <Text style={styles.text}>Đăng nhập</Text>
+                                            </TouchableOpacity>
+                                            <Text style={styles.contact}>Bạn chưa có tài khoản đăng nhập?</Text>        
+                                    </View>
+                            </TouchableWithoutFeedback>
+                </KeyboardAvoidingView>
+          
+
             </ImageBackground>
-        
         );
     }
     

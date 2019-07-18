@@ -39,6 +39,9 @@ export default class CustomerHomeController extends Component {
                   cellStyle="Basic"
                   title="Khách hàng"
                   accessory="DisclosureIndicator"
+                  onPress={() => {
+                    this.props.navigation.navigate("ListCustomer");
+                  }}
                   image={
                     <Image
                       style={{ borderRadius: 5 }}

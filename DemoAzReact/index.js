@@ -9,6 +9,7 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import HomeController from './screens/HomeController';
 import LoginController from './screens/LoginController';
 import CustomerHomeController from './screens/CustomerHomeController';
+import LisCustomerController from './Customer/ListCustomerController';
 
 const RootStack = createStackNavigator(
     {
@@ -30,6 +31,13 @@ const RootStack = createStackNavigator(
               headerTitleStyle :{color: 'white'},
             },
           },
+      ListCustomer: {
+            screen: LisCustomerController,
+            navigationOptions: {
+              title: 'Khách hàng',
+              headerTitleStyle :{color: 'white'},
+            },
+          }
     },
     {
       initialRouteName: 'Login',
@@ -45,7 +53,6 @@ const RootStack = createStackNavigator(
       }
   );
   const AppContainer = createAppContainer(RootStack);
-
 
 AppRegistry.registerComponent(appName, () => AppContainer);
 
