@@ -7,6 +7,9 @@ import {
     Text,
     View,
     Alert,
+    Image,
+    TouchableHighlight,
+    Button
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 import { SearchBar } from 'react-native-elements';
@@ -17,7 +20,10 @@ export default class ListCustomerController extends Component {
 
     headerStyle: {
       backgroundColor: 'red',
-    }
+    },
+    headerLeft:  (<TouchableHighlight onPress={() => navigation.navigate("CustomerHome")} underlayColor={'red'}>
+    <Image style={{ width: 35, height: 35, marginLeft: 10 }}  source={require('../Images/back.png')} />
+    </TouchableHighlight>)
   });
 
   constructor(props) {
@@ -55,8 +61,15 @@ export default class ListCustomerController extends Component {
                {`${[item.tenviettat]}`}
              </Text> 
           </View>
+
+          <View style= {{flexDirection: 'row', alignItems:'center', marginHorizontal: '95%'}}>
+                     <Image
+                          style={{ width: 18, height: 18}}
+                          source={require('../Images/next.png')}
+                      />
+          </View>
          
-          <View style= {{flexDirection: 'row', marginTop: 20, justifyContent:'space-between'}}>
+          <View style= {{flexDirection: 'row', justifyContent:'space-between'}}>
               <Text style = {{fontSize: 15, color:'red'}}>
                     {`${[item.didong]}`}
               </Text>
@@ -65,6 +78,7 @@ export default class ListCustomerController extends Component {
                     {`${[item.email]}`}
               </Text>
           </View>
+
 
         </View>
       </View>
@@ -133,20 +147,6 @@ export default class ListCustomerController extends Component {
         });
       };
 
-      renderHeader = () => {
-        return (
-          <SearchBar
-            placeholder="Type Here..."
-            lightTheme
-            round
-            onChangeText={text => this.searchFilterFunction(text)}
-            autoCorrect={false}
-            value={this.state.value}
-          />
-        );
-      };
-
-
     render() {
       const { search } = this.state;
       return (
@@ -160,13 +160,21 @@ export default class ListCustomerController extends Component {
         </View>
         :
         <View style={styles.headerView}>
-          
+            <SearchBar
+            placeholder="Type Here..."
+            lightTheme
+            round
+            containerStyle={{borderWidth:1, backgroundColor:'#fff'}}
+            inputStyle={{color:'#fff'}}
+            onChangeText={text => this.searchFilterFunction(text)}
+            autoCorrect={false}
+            value={this.state.value}
+          />
           <FlatList
             data=  {this.state.data}
             renderItem= {this.renderItem}
             keyExtractor={(item, index) => index}
             ItemSeparatorComponent={this.renderSeparator}
-            ListHeaderComponent={this.renderHeader}
           ></FlatList>
         </View>
       );

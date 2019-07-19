@@ -23,10 +23,11 @@ export default class CustomerHomeController extends Component {
 
     headerStyle: {
       backgroundColor: 'red',
-    }
-
+    },
+    headerLeft:  (<TouchableHighlight onPress={() => navigation.navigate("Home")} underlayColor={'red'}>
+    <Image style={{ width: 35, height: 35, marginLeft: 10 }}  source={require('../Images/back.png')} />
+    </TouchableHighlight>)
   });
-
 
     render() {
          return(
@@ -55,9 +56,12 @@ export default class CustomerHomeController extends Component {
                   image={
                     <Image
                       style={{ borderRadius: 5 }}
-                      source={require('../Images/ban_hang.png')}
+                      source={require('../Images/ban_hang.png')} 
                     />
                   }
+                  onPress={() => {
+                    this.props.navigation.navigate("ListContact");
+                  }}
                 />
                 <Cell
                   title="Cơ hội"

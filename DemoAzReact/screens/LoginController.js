@@ -36,7 +36,6 @@ export default class LoginController extends Component {
               }, function(){
       
               }); 
-
             if (this.state.dataSource !== "ok")  {
                 Alert.alert("Tên truy cập hoặc mật khẩu không đúng");
              }
