@@ -10,6 +10,7 @@ import HomeController from './screens/HomeController';
 import LoginController from './screens/LoginController';
 import CustomerHomeController from './screens/CustomerHomeController';
 import LisCustomerController from './Customer/ListCustomerController';
+import ListContactController from './Customer/ListContactController';
 
 const RootStack = createStackNavigator(
     {
@@ -37,7 +38,14 @@ const RootStack = createStackNavigator(
               title: 'Khách hàng',
               headerTitleStyle :{color: 'white'},
             },
-          }
+          },
+      ListContact: {
+        screen: ListContactController,
+        navigationOptions: {
+          title: 'Liên hệ',
+          headerTitleStyle :{color: 'white'},
+        },
+      }
     },
     {
       initialRouteName: 'Login',
