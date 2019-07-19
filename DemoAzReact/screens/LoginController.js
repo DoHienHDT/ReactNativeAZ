@@ -25,17 +25,18 @@ export default class LoginController extends Component {
                 "tendangnhap": this.state.taikhoan,
                 "matkhau":this.state.matkhau,
                 "seckey":"azmax"
+             })
             })
-      })
           .then((response) => response.json())
           .then((responseJson) => {
             this.setState({
                 loading: true,
                 dataSource: responseJson["msg"],
-                 manv: responseJson["manv"]
+                manv: responseJson["manv"]
               }, function(){
       
               }); 
+            //   alert("this.state.manv");
 
               setTimeout(() => {
                 this.setState({
@@ -43,14 +44,14 @@ export default class LoginController extends Component {
                 });
 
                 if (this.state.dataSource === "ok" ) {
-                    // this.props.navigation.navigate("Home")
+                    this.props.navigation.navigate("Home")
                     // this.saveKey(this.state.manv)
-                    // alert(this.state.manv);
-                } else {
-                    Alert.alert("Đăng nhập thất bại");
                 }
               }, 2500);
 
+              if (this.state.dataSource !== "ok")  {
+                 Alert.alert("Tên truy cập hoặc mật khẩu không đúng");
+              }
           })
           .catch((error) => {
             console.error(error);
@@ -134,11 +135,10 @@ export default class LoginController extends Component {
                                         </View>
                                   
                                             <TouchableOpacity style={styles.btnLogin}
-                                                             onPress={() => {
-                                                                this.props.navigation.navigate("Home");
-                                                              }}  
-                                                            >
-                                                            {/* this.handlePress.bind(this) */}
+                                                                onPress={() => {
+                                                                    this.handlePress();
+                                                                }}>
+                                            
                                                 <Text style={styles.text}>Đăng nhập</Text>
                                             </TouchableOpacity>
                                             <Text style={styles.contact}>Bạn chưa có tài khoản đăng nhập?</Text>        

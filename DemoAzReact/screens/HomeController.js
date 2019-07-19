@@ -35,7 +35,7 @@ export default class HomeController extends Component {
       'Thông báo',
       'Bạn có chắc chắn muốn thoát khỏi phiên đăng nhập này không?',
       [
-             {text: 'Đồng ý', onPress: () => console.log('OK Pressed') },
+             {text: 'Đồng ý', onPress: () => this.props.navigation.navigate("Login")},
              {text: 'Không', onPress: () => console.log('OK Pressed')}
       ]
   );

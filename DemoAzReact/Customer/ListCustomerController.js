@@ -5,7 +5,8 @@ import {
     FlatList,
     StyleSheet,
     Text,
-    View
+    View,
+    Alert,
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 
@@ -31,6 +32,35 @@ export default class ListCustomerController extends Component {
     };
   }
 
+  renderItem = ({item}) => {
+    return (
+      <View style={{flex:1, flexDirection:'row', marginBottom:3}}>
+        <View style={{flex:1 , justifyContent:'center', marginLeft:10}}>
+
+          <Text style = {{fontSize: 18, color:'black', marginTop:10}}>
+             {`${[item.tencongty]}`}
+          </Text>
+          <Text style = {{fontSize: 15, color:'red', marginBottom:10, marginTop:10}}>
+             {`${[item.didong]}`}
+          </Text>
+
+          <Text style = {{fontSize: 15, color:'red', paddingRight:50, marginTop:10}}>
+               {`${[item.tenviettat]}`}
+            </Text>
+         
+        </View>
+      </View>
+    );
+  }
+
+  renderSeparator = () => {
+    return (
+      <View 
+        style={{height: 1, width:'100%', backgroundColor:'gray'}}
+      ></View>
+    );
+  }
+
     state = {
       data: []
     };
@@ -40,57 +70,59 @@ export default class ListCustomerController extends Component {
     }
 
     handlePress = async () => {
-      fetch('http://appdemo.azmax.vn/services/mobileapi.ashx', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              "method":"customers",
-              "rtype": 1,
-              "seckey":"azmax"
-          })
-       })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({
-               dataSource: responseJson["msg"],
-               manv: responseJson["manv"]
-            }, function(){
-    
-            }); 
+    const url = `http://appdemo.azmax.vn/services/mobileapi.ashx`;
+    this.setState({ loading: true });
 
-            setTimeout(() => {
-              this.setState({
-                loading: false,
-              });
-
-              if (this.state.dataSource === "ok" ) {
-                  // this.props.navigation.navigate("Home")
-                  // this.saveKey(this.state.manv)
-                  // alert(this.state.manv);
-              } else {
-                  Alert.alert("Đăng nhập thất bại");
-              }
-            }, 2500);
-
-        })
-        .catch((error) => {
-          console.error(error);
+    fetch(url, {
+      method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "method":"customers",
+                "rtype": 1,
+                "seckey":"azmax"
+            })
+     })
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          data: res["data"],
+          error: res.error || null,
+          isLoading: false,
+          refreshing: false
         });
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      });
       }
 
     render() {
       return (
-        <View style={styles.container}>
+        // <View style={styles.container}>
+        //   <FlatList
+        //     data={this.state.data}
+        //     keyExtractor={(x, i) => i}
+        //     renderItem={({ item }) =>
+        //       <Text>
+        //         {`${[item.makh]}`}
+        //       </Text>}
+        //   />
+        // </View>
+        this.state.isLoading
+        ?
+        <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
+            <ActivityIndicator size="large" color="black" animating/>
+        </View>
+        :
+        <View style={styles.headerView}>
           <FlatList
-            data={this.state.data}
-            keyExtractor={(x, i) => i}
-            renderItem={({ item }) =>
-              <Text>
-                {item.login.username}
-              </Text>}
-          />
+            data=  {this.state.data}
+            renderItem= {this.renderItem}
+            keyExtractor={(item, index) => index}
+            ItemSeparatorComponent={this.renderSeparator}
+          ></FlatList>
         </View>
       );
     }
@@ -103,8 +135,7 @@ const styles = StyleSheet.create({
     },
     headerView: {
       flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
+      backgroundColor:'#F5FCFF'
     }
   });
 
