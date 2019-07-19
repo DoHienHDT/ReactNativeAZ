@@ -34,20 +34,28 @@ export default class ListCustomerController extends Component {
 
   renderItem = ({item}) => {
     return (
-      <View style={{flex:1, flexDirection:'row', marginBottom:3}}>
-        <View style={{flex:1 , justifyContent:'center', marginLeft:10}}>
+      <View style={styles.container}>
+        <View style={styles.container_text}>
+          <View style= {{flexDirection: 'row',justifyContent:'space-between'}}>
+              <Text style = {{fontSize: 18, color:'black' }}>
+                {`${[item.tencongty]}`}
+              </Text>
 
-          <Text style = {{fontSize: 18, color:'black', marginTop:10}}>
-             {`${[item.tencongty]}`}
-          </Text>
-          <Text style = {{fontSize: 15, color:'red', marginBottom:10, marginTop:10}}>
-             {`${[item.didong]}`}
-          </Text>
-
-          <Text style = {{fontSize: 15, color:'red', paddingRight:50, marginTop:10}}>
+              <Text style = {{fontSize: 15, color:'red',paddingRight: 20}}>
                {`${[item.tenviettat]}`}
-            </Text>
+             </Text> 
+          </View>
          
+          <View style= {{flexDirection: 'row', marginTop: 20, justifyContent:'space-between'}}>
+              <Text style = {{fontSize: 15, color:'gray'}}>
+                    {`${[item.didong]}`}
+              </Text>
+
+              <Text style = {{fontSize: 15, color:'black',paddingRight: 20}}>
+                    {`${[item.email]}`}
+              </Text>
+          </View>
+
         </View>
       </View>
     );
@@ -56,7 +64,7 @@ export default class ListCustomerController extends Component {
   renderSeparator = () => {
     return (
       <View 
-        style={{height: 1, width:'100%', backgroundColor:'gray'}}
+        style={{height: 1, width:'100%', backgroundColor:'#DDDDDD', marginLeft: 10}}
       ></View>
     );
   }
@@ -100,16 +108,6 @@ export default class ListCustomerController extends Component {
 
     render() {
       return (
-        // <View style={styles.container}>
-        //   <FlatList
-        //     data={this.state.data}
-        //     keyExtractor={(x, i) => i}
-        //     renderItem={({ item }) =>
-        //       <Text>
-        //         {`${[item.makh]}`}
-        //       </Text>}
-        //   />
-        // </View>
         this.state.isLoading
         ?
         <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
@@ -136,6 +134,21 @@ const styles = StyleSheet.create({
     headerView: {
       flex: 1,
       backgroundColor:'#F5FCFF'
-    }
+    },
+    container: {
+      flex: 1,
+      flexDirection: 'row',
+      marginRight:16,
+      marginTop: 8,
+      marginBottom: 8,
+      borderRadius: 5,
+      marginLeft: 10,
+      backgroundColor: '#FFF',
+      elevation: 2,
+    },
+
+    container_text: {
+      flex: 1
+  },
   });
 

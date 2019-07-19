@@ -14,7 +14,7 @@ export default class LoginController extends Component {
         header: null
       };
 
-      handlePress = async () => {
+      Login = async () => {
         fetch('http://appdemo.azmax.vn/services/mobileapi.ashx', {
             method: 'POST',
             headers: {
@@ -36,7 +36,10 @@ export default class LoginController extends Component {
               }, function(){
       
               }); 
-            //   alert("this.state.manv");
+
+            if (this.state.dataSource !== "ok")  {
+                Alert.alert("Tên truy cập hoặc mật khẩu không đúng");
+             }
 
               setTimeout(() => {
                 this.setState({
@@ -44,14 +47,13 @@ export default class LoginController extends Component {
                 });
 
                 if (this.state.dataSource === "ok" ) {
-                    this.props.navigation.navigate("Home")
-                    // this.saveKey(this.state.manv)
+                    this.props.navigation.navigate("Home", {
+                        manv: this.state.manv
+                    });
                 }
               }, 2500);
 
-              if (this.state.dataSource !== "ok")  {
-                 Alert.alert("Tên truy cập hoặc mật khẩu không đúng");
-              }
+              
           })
           .catch((error) => {
             console.error(error);
@@ -67,17 +69,7 @@ export default class LoginController extends Component {
           }
       }
 
-
-//   async saveKey(value) {
-//     try {
-//       await AsyncStorage.setItem('manv', value);
-//     } catch (error) {
-//       console.log("Error saving data" + error);
-//     }
-//   }
-
     render() {
-        const {navigation} = this.props;
         
         return (
             <ImageBackground  source={require('../Images/unnamed.jpg')} style ={styles.backgroundContainer}>
@@ -136,7 +128,8 @@ export default class LoginController extends Component {
                                   
                                             <TouchableOpacity style={styles.btnLogin}
                                                                 onPress={() => {
-                                                                    this.handlePress();
+                                                                    this.Login();
+                                                                    // this.props.navigation.navigate("Home");
                                                                 }}>
                                             
                                                 <Text style={styles.text}>Đăng nhập</Text>

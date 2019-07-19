@@ -19,8 +19,12 @@ import {
 
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
+import Loader from '../pages/Loader';
+
 const {width: WIDTH} = Dimensions.get('window')
-export default class HomeController extends Component { 
+
+
+export default class HomeController extends Component{ 
   static navigationOptions = {
     headerLeft: null,
 
@@ -35,30 +39,31 @@ export default class HomeController extends Component {
       'Thông báo',
       'Bạn có chắc chắn muốn thoát khỏi phiên đăng nhập này không?',
       [
-             {text: 'Đồng ý', onPress: () => this.props.navigation.navigate("Login")},
+             {text: 'Đồng ý', onPress: () => this.Logout()},
              {text: 'Không', onPress: () => console.log('OK Pressed')}
-      ]
-  );
+      ]);
   }
 
-  // async getKey() {
-  //   try {
-  //     const value = await AsyncStorage.getItem('manv');
-  //     this.setState({myKey: value});
-  //   } catch (error) {
-  //     console.log("Error retrieving data" + error);
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+       
+        loading: false,
+    }
+}
+
     render() {
+
          return(
            <SafeAreaView>
+            <Loader loading={this.state.loading} />
              <ScrollView  contentContainerStyle={styles.stage} >
              <TableView >
                       <Section>
-
+                      
                   <Cell
                       accessory="DisclosureIndicator"
-                      title=" Sản phẩm"
+                      title= "Sản phẩm"
                       image={
                         <Image
                           style={{ borderRadius: 5 }}
@@ -141,19 +146,48 @@ export default class HomeController extends Component {
            </SafeAreaView>  
     );
     }
+
+    Logout = async () => {
+      const { navigation } = this.props;
+      const manv = navigation.getParam('manv', 'NO-ID');
+      fetch('http://appdemo.azmax.vn/services/mobileapi.ashx', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              "method":"logout",
+              "manv": JSON.stringify(manv),
+              "seckey":"azmax"
+           })
+          })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({
+              loading: true,
+              dataSource: responseJson["msg"]
+            }, function(){
+    
+            }); 
+  
+            setTimeout(() => {
+              this.setState({
+                loading: false,
+              });
+  
+              if (this.state.dataSource === "ok" ) {
+                  navigation.navigate("Login");
+              }
+            }, 2500);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }
+  
 }
 
- getUserId = async () => {
-  let userId = '';
-  try {
-    userId = await AsyncStorage.getItem('manv') || 'none';
-    alert(userId)
-  } catch (error) {
-    // Error retrieving data
-    console.log(error.message);
-  }
-  return userId;
-}
+
 
 const styles = StyleSheet.create({
     stage: {
