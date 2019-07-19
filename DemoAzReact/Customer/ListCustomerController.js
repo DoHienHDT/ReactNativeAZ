@@ -9,6 +9,7 @@ import {
     Alert,
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
+import { SearchBar } from 'react-native-elements';
 
 export default class ListCustomerController extends Component { 
   
@@ -30,7 +31,16 @@ export default class ListCustomerController extends Component {
       error: null,
       refreshing: false,
     };
+    this.arrayholder = [];
   }
+
+  state = {
+    search: '',
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
 
   renderItem = ({item}) => {
     return (
@@ -41,13 +51,13 @@ export default class ListCustomerController extends Component {
                 {`${[item.tencongty]}`}
               </Text>
 
-              <Text style = {{fontSize: 15, color:'red',paddingRight: 20}}>
+              <Text style = {{fontSize: 15, color:'gray',paddingRight: 20}}>
                {`${[item.tenviettat]}`}
              </Text> 
           </View>
          
           <View style= {{flexDirection: 'row', marginTop: 20, justifyContent:'space-between'}}>
-              <Text style = {{fontSize: 15, color:'gray'}}>
+              <Text style = {{fontSize: 15, color:'red'}}>
                     {`${[item.didong]}`}
               </Text>
 
@@ -100,26 +110,63 @@ export default class ListCustomerController extends Component {
           isLoading: false,
           refreshing: false
         });
+        this.arrayholder = res["data"];
       })
       .catch(error => {
         this.setState({ error, loading: false });
       });
       }
 
+      searchFilterFunction = text => {
+        this.setState({
+          value: text,
+        });
+    
+        const newData = this.arrayholder.filter(item => {
+          const itemData = `${[item.tencongty.toUpperCase()]} ${[item.email.toUpperCase()]} ${[item.tenviettat.toUpperCase()]}`;
+          const textData = text.toUpperCase();
+    
+          return itemData.indexOf(textData) > -1;
+        });
+        this.setState({
+          data: newData,
+        });
+      };
+
+      renderHeader = () => {
+        return (
+          <SearchBar
+            placeholder="Type Here..."
+            lightTheme
+            round
+            onChangeText={text => this.searchFilterFunction(text)}
+            autoCorrect={false}
+            value={this.state.value}
+          />
+        );
+      };
+
+
     render() {
+      const { search } = this.state;
       return (
+       
+
         this.state.isLoading
         ?
+        
         <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
             <ActivityIndicator size="large" color="black" animating/>
         </View>
         :
         <View style={styles.headerView}>
+          
           <FlatList
             data=  {this.state.data}
             renderItem= {this.renderItem}
             keyExtractor={(item, index) => index}
             ItemSeparatorComponent={this.renderSeparator}
+            ListHeaderComponent={this.renderHeader}
           ></FlatList>
         </View>
       );

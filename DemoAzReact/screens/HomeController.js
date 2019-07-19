@@ -47,105 +47,105 @@ export default class HomeController extends Component{
   constructor(props) {
     super(props);
     this.state = {
-       
         loading: false,
     }
-}
+  }
 
     render() {
-
          return(
            <SafeAreaView>
             <Loader loading={this.state.loading} />
              <ScrollView  contentContainerStyle={styles.stage} >
-             <TableView >
-                      <Section>
+                   <TableView >
+                              <Section>
                       
-                  <Cell
-                      accessory="DisclosureIndicator"
-                      title= "Sản phẩm"
-                      image={
-                        <Image
-                          style={{ borderRadius: 5 }}
-                          source={require('../Images/san_pham.png')}
-                        />
-                      }
-                   />
+                                <Cell
+                                    accessory="DisclosureIndicator"
+                                    title= "Sản phẩm"
+                                    image={
+                                      <Image
+                                        style={{ borderRadius: 5 }}
+                                        source={require('../Images/san_pham.png')}
+                                      />
+                                    }
+                                />
 
-                    <Cell
-                          onPress={() => {
-                            this.props.navigation.navigate("CustomerHome");
-                          }}  
-                          cellStyle="Basic"
-                          title="Khách hàng"
-                          accessory="DisclosureIndicator"
-                          image={
-                          <Image
-                              style={{ borderRadius: 5 }}
-                              source={require('../Images/khach_hang.png')}
-                          />
-                      }
-                    />
+                                <Cell
+                                      onPress={() => {
+                                        this.props.navigation.navigate("CustomerHome");
+                                      }}  
+                                      cellStyle="Basic"
+                                      title="Khách hàng"
+                                      accessory="DisclosureIndicator"
+                                      image={
+                                      <Image
+                                          style={{ borderRadius: 5 }}
+                                          source={require('../Images/khach_hang.png')}
+                                      />
+                                  }
+                                />
 
-                    <Cell
-                      accessory="DisclosureIndicator"
-                      title=" Chính sách"
-                      image={
-                        <Image
-                          style={{ borderRadius: 5 }}
-                          source={require('../Images/chinh_sach.png')}
-                        />
-                      }
-                   />
+                                <Cell
+                                  accessory="DisclosureIndicator"
+                                  title=" Chính sách"
+                                  image={
+                                    <Image
+                                      style={{ borderRadius: 5 }}
+                                      source={require('../Images/chinh_sach.png')}
+                                    />
+                                  }
+                              />
 
-                    <Cell
-                      accessory="DisclosureIndicator"
-                      title="Bán hàng"
-                      image={
-                        <Image
-                          style={{ borderRadius: 5 }}
-                          source={require('../Images/ban_hang.png')}
-                        />
-                      }
-                    />
+                              <Cell
+                                accessory="DisclosureIndicator"
+                                title="Bán hàng"
+                                image={
+                                  <Image
+                                    style={{ borderRadius: 5 }}
+                                    source={require('../Images/ban_hang.png')}
+                                  />
+                                }
+                              />
 
-                    <Cell
-                      accessory="DisclosureIndicator"
-                      title="Kho hàng"
-                      image={
-                        <Image
-                          style={{ borderRadius: 5 }}
-                          source={require('../Images/kho_hang.png')}
-                        />
-                      }
-                    />   
+                              <Cell
+                                accessory="DisclosureIndicator"
+                                title="Kho hàng"
+                                image={
+                                  <Image
+                                    style={{ borderRadius: 5 }}
+                                    source={require('../Images/kho_hang.png')}
+                                  />
+                                }
+                              />   
 
-                    <Cell
-                      title="Công việc"
-                      accessory="DisclosureIndicator"
-                      image={
-                        <Image
-                          style={{ borderRadius: 5 }}
-                          source={require('../Images/cong_viec.png')}
-                        />
-                      }
-                      onPress={() => console.log('Hien dep trai!')}
-                    />
-              </Section>
-                      </TableView>
+                              <Cell
+                                title="Công việc"
+                                accessory="DisclosureIndicator"
+                                image={
+                                  <Image
+                                    style={{ borderRadius: 5 }}
+                                    source={require('../Images/cong_viec.png')}
+                                  />
+                                }
+                                onPress={() => console.log('Hien dep trai!')}
+                              />
+                          </Section>
+                  </TableView>
              </ScrollView>
+
              <View style={styles.headerView}>
-             <TouchableOpacity style={styles.btnLogOut}
-              onPress={this.handlePress.bind(this)}
-            >
-            <Text style={styles.text}>Đăng Xuất</Text>
-            </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btnLogOut}
+                  onPress={this.handlePress.bind(this)}>
+
+                     <Text style={styles.text}>Đăng Xuất</Text>
+
+                </TouchableOpacity>
+
              </View >
 
-
-           </SafeAreaView>  
-    );
-    }
+          </SafeAreaView>  
+    );}
 
     Logout = async () => {
       const { navigation } = this.props;
@@ -184,10 +184,7 @@ export default class HomeController extends Component{
           console.error(error);
         });
       }
-  
 }
-
-
 
 const styles = StyleSheet.create({
     stage: {
