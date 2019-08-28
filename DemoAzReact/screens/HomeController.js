@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import {Cell, Section, TableView} from 'react-native-tableview-simple';
 import Loader from '../pages/Loader';
+import đsd from 'prop'
 
 const {width: WIDTH} = Dimensions.get('window')
 

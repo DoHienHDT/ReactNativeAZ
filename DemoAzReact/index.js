@@ -62,6 +62,6 @@ const RootStack = createStackNavigator(
   );
   const AppContainer = createAppContainer(RootStack);
 
-AppRegistry.registerComponent(appName, () => AppContainer);
+AppRegistry.registerComponent(appName, () => LoginController);
 
 

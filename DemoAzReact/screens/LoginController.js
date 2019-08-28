@@ -1,9 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, View, Alert,ActivityIndicator, TextInput, Dimensions, ImageBackground, TouchableOpacity, Text, AsyncStorage, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard} from "react-native";
 import {Component} from 'react';
-import colors from "../config/colors";
-import Icon from 'react-native-vector-icons/Ionicons';
-import {HomeController} from '../screenName';
 import Loader from '../pages/Loader';
 
 const {width: WIDTH} = Dimensions.get('window')
@@ -39,20 +36,16 @@ export default class LoginController extends Component {
             if (this.state.dataSource !== "ok")  {
                 Alert.alert("Tên truy cập hoặc mật khẩu không đúng");
              }
-
               setTimeout(() => {
                 this.setState({
                   loading: false,
                 });
-
                 if (this.state.dataSource === "ok" ) {
                     this.props.navigation.navigate("Home", {
                         manv: this.state.manv
                     });
                 }
-              }, 2500);
-
-              
+              }, 2500);  
           })
           .catch((error) => {
             console.error(error);
