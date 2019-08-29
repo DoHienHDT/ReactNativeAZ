@@ -39,7 +39,7 @@ const RootStack = createStackNavigator(
               headerTitleStyle :{color: 'white'},
             },
           },
-      ListContact: {
+      ListContact: {    
         screen: ListContactController,
         navigationOptions: {
           title: 'Liên hệ',
